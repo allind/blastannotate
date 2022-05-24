@@ -7,18 +7,28 @@ threads=$4
 
 prefix=$(echo $genome | rev | cut -f 1 -d "/" | rev | cut -f 1 -d ".")
 
+echo $fwd
+echo $rev
+echo $genome
+echo $threads
 
+#make db
+STAR --runMode genomeGenerate --runThreadN $threads --genomeDir $prefix --genomeFastaFiles $genome  --genomeSAindexNbases 11
 
 #first alignment
-STAR --readFilesCommand zcat --outSAMmapqUnique 10 --outFilterMismatchNmax 0 --alignIntronMax 40000 --alignMatesGapMax 40000 --alignIntronMin 15 --outSJfilterCountUniqueMin -1 10 10 10 --outSAMtype BAM SortedByCoordinate --genomeDir $prefix --outFileNamePrefix $prefix"_firstpass_" —readFilesIn $fwd $rev --runThreadN $threads
+STAR --readFilesCommand zcat --outSAMmapqUnique 10 --outFilterMismatchNmax 0 --alignIntronMax 40000 --alignMatesGapMax 40000 --alignIntronMin 15 --outSJfilterCountUniqueMin -1 10 10 10 --genomeDir $prefix --outFileNamePrefix $prefix"_firstpass_" --readFilesIn $fwd $rev --runThreadN $threads
 
 #filter junctions
-python scripts/filter_sj_tabfile.py $prefix"_passone_SJ.out.tab" 25 > $prefix"_passone_min25_SJ.out.tab"
+python /pollard/data/projects/alind/protist_sequencing/Blastocystis_BT1/bt1_lib1/assembly/blastannotate/scripts/filter_sj_tabfile.py $prefix"_firstpass_SJ.out.tab" 25 > $prefix"_firstpass_min25_SJ.out.tab"
 
 #re-align with strict junctions
-STAR --readFilesCommand zcat  --outSAMmapqUnique 10 --outFilterMismatchNmax 0 --alignIntronMax 40000 --alignMatesGapMax 40000 --alignIntronMin 15 --alignSJoverhangMin 1000 --genomeDir $prefix --outFileNamePrefix $prefix"_secondpass_" --readFilesIn $fwd $rev --runThreadN $threads --sjdbFileChrStartEnd $prefix"_passone_min25_SJ.out.tab"
+STAR --readFilesCommand zcat  --outSAMmapqUnique 10 --outFilterMismatchNmax 0 --alignIntronMax 40000 --alignMatesGapMax 40000 --alignIntronMin 15 --alignSJoverhangMin 1000 --genomeDir $prefix --outFileNamePrefix $prefix"_secondpass_" --readFilesIn $fwd $rev --runThreadN $threads --sjdbFileChrStartEnd $prefix"_firstpass_min25_SJ.out.tab"
 
-#process bam
-#samtools sort -o $prefix"_secondpass_"
+#sort and compress sam
+samtools sort -@ $threads -o $prefix"_firstpass.sorted.bam" $prefix"_firstpass_Aligned.out.sam"
+rm $prefix"_firstpass_Aligned.out.sam"
+samtools sort -@ $threads -o $prefix"_secondpass.sorted.bam" $prefix"_secondpass_Aligned.out.sam"
+rm $prefix"_secondpass_Aligned.out.sam"
 
+#remove tmpdirs
 
