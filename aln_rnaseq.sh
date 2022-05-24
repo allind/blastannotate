@@ -12,6 +12,9 @@ echo $rev
 echo $genome
 echo $threads
 
+#fix the stupid polypolish genome thing
+perl -pi -e 's/polypolish_polypolish_polypolish/polish/' $genome
+
 #make db
 STAR --runMode genomeGenerate --runThreadN $threads --genomeDir $prefix --genomeFastaFiles $genome  --genomeSAindexNbases 11
 
@@ -29,6 +32,9 @@ samtools sort -@ $threads -o $prefix"_firstpass.sorted.bam" $prefix"_firstpass_A
 rm $prefix"_firstpass_Aligned.out.sam"
 samtools sort -@ $threads -o $prefix"_secondpass.sorted.bam" $prefix"_secondpass_Aligned.out.sam"
 rm $prefix"_secondpass_Aligned.out.sam"
+
+samtools index $prefix"_firstpass.sorted.bam"
+samtools index $prefix"_secondpass.sorted.bam"
 
 #remove tmpdirs
 

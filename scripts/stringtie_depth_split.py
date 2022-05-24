@@ -77,8 +77,9 @@ def main(argv):
 
 			zeros = []
 			for base in span:
-				if base in uncovered[chrom]:
-					zeros.append(base)
+				if chrom in uncovered:
+					if base in uncovered[chrom]:
+						zeros.append(base)
 			
 			#cut it at the start and the stop of the zeros
 
