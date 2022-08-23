@@ -7,6 +7,7 @@ def main(argv):
 	towrite = []
 	ok = False
 	for line in open(sys.argv[1]):
+		line = line.strip('\n')
 		if "#" in line[0]:
 			towrite.append(line + '\n')
 		else:

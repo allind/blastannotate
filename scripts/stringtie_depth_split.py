@@ -88,11 +88,10 @@ def main(argv):
 
 		#add log lines
 
-
 		exons_to_cut_ids = list(exons_to_cut.keys())
 		sizes = [exons_to_cut[e][2] for e in exons_to_cut]
 		if len(exons_to_cut_ids) > 0:
-			logwrite.append("Zeros in transcript " + t + ". Exons affected total: " + str(len(exons_to_cut_ids)) + " exons. In exon numbers: " + ','.join(exons_to_cut_ids) + '\n')
+			logwrite.append("Below cutoff bases in transcript " + t + ". Exons affected total: " + str(len(exons_to_cut_ids)) + " exons. In exon numbers: " + ','.join(exons_to_cut_ids) + '\n')
 		#print(t + '\t' + str(len(exons_to_cut_ids)))
 		if len(exons_to_cut_ids) > 0:
 			transcripts_to_remove.append(t)

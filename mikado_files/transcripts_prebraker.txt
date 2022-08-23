@@ -1,0 +1,3 @@
+stringtie.gtf	st	TRUE	1	FALSE	TRUE	TRUE
+trinity_denovo.gff3	trdn	FALSE	-0.5	FALSE	FALSE	TRUE
+trinity_gg.gff3	trgg	TRUE		FALSE	TRUE	TRUE

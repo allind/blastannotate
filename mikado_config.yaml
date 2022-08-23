@@ -1,0 +1,23 @@
+
+
+#Universal options
+
+genome: ""
+trinitydn: ""
+trinitygg: ""
+stringtie: ""
+config_dir: "" #this is where mikado scoring files and sample transcript input file are
+proteins: /pollard/data/projects/alind/protist_sequencing/reference_euk_proteins/uniprot_refseqprot_blasto/uniprot_refseq_blasto_cdhit100.fasta #proteins to use for blast
+threads: 50
+
+
+#eukdetect_dir: "/pollard/data/projects/alind/eukdetect/midas_testing/busco_v4/eukdetect_repo/EukDetect_secondary_hits/EukDetect"
+#output_dir: "bhatt"
+#paired_end: true
+#fwd_suffix: "_R1.fastq.gz"
+#rev_suffix: "_R2.fastq.gz"
+#fq_dir: "fake_wynton"
+#database_dir: "/pollard/data/projects/alind/eukdetect/eukprot/combine_with_ncbi_genome/filter_alien/remove_strept"
+#taxonomy_dir: "/pollard/data/projects/alind/eukdetect/eukprot/combine_with_ncbi_genome/filter_alien/remove_strept"
+#database_prefix: "all_buscos_nostrept_rename_rmbact_cdhit99_renamed_rmgroup.fna"
+
